@@ -1,0 +1,9 @@
+setup.cfg
+setup.py
+accountman/__init__.py
+accountman.egg-info/PKG-INFO
+accountman.egg-info/SOURCES.txt
+accountman.egg-info/dependency_links.txt
+accountman.egg-info/entry_points.txt
+accountman.egg-info/top_level.txt
+accountman.egg-info/zip-safe
