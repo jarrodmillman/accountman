@@ -1,0 +1,33 @@
+.. -*- rest -*-
+.. vim:syntax=rest
+
+======================
+Simple account manager
+======================
+
+AccountMan provides a command-line interface to store and retrieve
+account information (i.e., url, name, password).  Account information
+is stored in a JSON file::
+
+ {
+     "acc1": {
+         "url": "http://www.bank.com", 
+         "password": {
+             "salt": "4a704c50696c", 
+             "cipherpasswd": "U2FsdGVkX19KcExQaWwAADphBGePaw4E6tlphf8SU0Y="
+         }, 
+         "name": "user1"
+     }, 
+     "acc2": {
+         "url": "http://www.mailinglist.org", 
+         "password": {
+             "salt": "42694a363770", 
+             "cipherpasswd": "U2FsdGVkX19CaUo2N3AAAEhG0zExx0jjMfzsyKkGyBo="
+         }, 
+         "name": "user1"
+     }
+ }
+
+The source code can be found here:
+
+  http://github.com/jarrodmillman/accountman

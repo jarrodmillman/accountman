@@ -1,8 +1,20 @@
 {
-    "netflix": {
-        "url": "http://chase.com"
+    "acc1": {
+        "url": "http://www.bank.com", 
+        "password": {
+            "salt": "4a704c50696c", 
+            "passwd": "6R2qinBd6QwG", 
+            "cipherpasswd": "U2FsdGVkX19KcExQaWwAADphBGePaw4E6tlphf8SU0Y="
+        }, 
+        "name": "user1"
     }, 
-    "chase": {
-        "url": "http://chase.com"
+    "acc2": {
+        "url": "http://www.mailinglist.org", 
+        "password": {
+            "salt": "42694a363770", 
+            "passwd": "1GdJPr0NgonH", 
+            "cipherpasswd": "U2FsdGVkX19CaUo2N3AAAEhG0zExx0jjMfzsyKkGyBo="
+        }, 
+        "name": "user1"
     }
 }

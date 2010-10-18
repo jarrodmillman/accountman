@@ -1,30 +1,27 @@
 from __future__ import print_function
 from random import choice
 import string
-import subprocess
+from  subprocess import Popen, PIPE
 
 cipher = "aes-256-cbc"
 encryptcommand = "openssl enc -"+cipher+" -base64"
 decryptcommand = encryptcommand+" -d"
 
 
-def genpass(length=12, chars=string.letters+string.digits):
+def randomstring(length=12, chars=string.letters+string.digits):
     return ''.join([choice(chars) for i in range(length)])
 
-def encryptpass(plaintextpass, salt):
+def encrypt(plaintextpass, salt):
     """Returns an encrypted password.
     openssl enc -aes-256-cbc -salt -base64
     """
     cmdline = encryptcommand+' -S '+salt
-    proc=subprocess.Popen(cmdline,
-                          shell=True,
-                          stdin=subprocess.PIPE,
-                          stdout=subprocess.PIPE)
+    proc=Popen(cmdline, shell=True, stdin=PIPE, stdout=PIPE)
     proc.stdin.write(plaintextpass)
     out,err=proc.communicate()
-    return out.strip()
+    return dict(salt=salt, cipherpasswd=out.strip())
 
-def decryptpass(encryptedpass, salt):
+def decrypt(ciphertext):
     """Returns plaintext password.
 
     Extracts the embedded salt and encrypted password.
@@ -32,28 +29,20 @@ def decryptpass(encryptedpass, salt):
  
     openssl enc -aes-256-cbc -salt -base64 -d
     """
+    cipherpass, salt = ciphertext['cipherpasswd'], ciphertext['salt']
     cmdline = decryptcommand+' -S '+salt
-    print(cmdline)
-    proc=subprocess.Popen(cmdline,
-                          shell=True,
-                          stdin=subprocess.PIPE,
-                          stdout=subprocess.PIPE)
-    proc.stdin.write(encryptedpass+'\n')
+    proc=Popen(cmdline, shell=True, stdin=PIPE, stdout=PIPE)
+    proc.stdin.write(cipherpass+'\n')
     out,err=proc.communicate()
     return out.strip()
-
-def printpass(encryptedpass):
-    plaintextpass = decryptpass(encryptedpass)
-    print('Plaintext password: '+plaintextpass)
 
 def getpass():
     generate_pass = raw_input("Generate passwd [y/n]: ")
 
     if generate_pass == 'y':
-        plaintextpass = genpass()
+        plaintextpass = randomstring()
     else:
         plaintextpass = raw_input("Password: ")
 
-    salt = makesalt()
-    encryptedpass = encryptpass(plaintextpass, salt)
-    return encryptedpass
+    salt = randomstring(length=6).encode("hex")
+    return encrypt(plaintextpass, salt)
